@@ -1,8 +1,10 @@
 import { BehaviorSubject, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { ActionProps } from "./action";
+import { actionTypeBuilder } from "./actionTypeBuilder";
 import { ReducerProps, ReducerMap, Reducer } from "./reducer";
 import { Selector } from "./selector";
+import { SliceBuilderProps } from "./slice";
 
 export class BasicStore<S> {
   protected _state: BehaviorSubject<S>;
@@ -15,6 +17,19 @@ export class BasicStore<S> {
 
   selectAsync<T>(selector: Selector<S, T>) {
     return this._state.asObservable().pipe(map(selector));
+  }
+
+  /** A helper method to create actions and reducers quickly, with less boilerplate. */
+  createSlice(slice: SliceBuilderProps<S>) {
+    // Get the list of actions from the keys of the reducer map.
+    const actionKeys = Object.keys(slice.reducers);
+    const createActionType = actionTypeBuilder(slice.name);
+
+    const actions = actionKeys.reduce((map, action) => {
+      const type = createActionType(action);
+
+      return map;
+    }, {});
   }
 
   registerReducer(
