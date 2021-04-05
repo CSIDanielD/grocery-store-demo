@@ -13,11 +13,19 @@ export interface ActionContext<State> {
   ) => InferActionReducerMapFromReducerMap<M>;
 }
 
-// Create a "Context" for ActionReducer creation methods.
-// This is a Curry function used to inject the provided State type into its returned methods
-// to allow Typescript's type inference to work correctly. Typescript doesn't support partial
-// type inference (you either provide all generic params or none), so this is the way around that.
-export function withState<State>(): ActionContext<State> {
+/**
+ * Create a "Context" for ActionReducer creation methods. Alias for createActionContext.
+ * @see createActionContext
+ */
+export const withState = createActionContext;
+
+/**
+ * Create a "Context" for ActionReducer creation methods.
+ * This is a Curry function used to inject the provided State type into its returned methods
+ * to allow Typescript's type inference to work correctly. Typescript doesn't support partial
+ * type inference (you either provide all generic params or none), so this is the way around that.
+ */
+export function createActionContext<State>(): ActionContext<State> {
   function createReducerMap<M extends ReducerMap<State, any>>(map: M): M {
     return map;
   }
