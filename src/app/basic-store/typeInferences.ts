@@ -27,20 +27,12 @@ export type InferActionCreatorMapFromActionReducerMap<
   ? { [K in keyof M]: InferActionCreatorForActionReducer<M[K]> }
   : never;
 
-/** Infers an Action union type from a ReducerMap */
-export type InferActionUnionFromReducerMap<M> = M extends ReducerMap<
-  any,
-  infer A
->
-  ? A
-  : never;
-
 /** Infers an ActionReducer type from a Reducer */
 export type InferActionReducerFromReducer<R> = R extends Reducer<
   infer S,
-  Action<infer P>
+  infer P
 >
-  ? ActionReducer<Action<P>, Reducer<S, Action<P>>>
+  ? ActionReducer<Action<P>, Reducer<S, P>>
   : never;
 
 /** Infers an ActionReducerMap type from a ReducerMap */

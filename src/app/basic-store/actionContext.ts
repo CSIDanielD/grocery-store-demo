@@ -8,7 +8,7 @@ import {
 export interface ActionContext<State> {
   readonly createReducerMap: <M extends ReducerMap<State, any>>(map: M) => M;
   readonly createActionCreator: <P = any>(type: string) => ActionCreator<P>;
-  readonly createActionReducerMap: <M extends ReducerMap<State, Action>>(
+  readonly createActionReducerMap: <M extends ReducerMap<State, any>>(
     reducerMap: M
   ) => InferActionReducerMapFromReducerMap<M>;
 }
@@ -25,20 +25,29 @@ export const withState = createActionContext;
  * to allow Typescript's type inference to work correctly. Typescript doesn't support partial
  * type inference (you either provide all generic params or none), so this is the way around that.
  */
-export function createActionContext<State>(): ActionContext<State> {
+export function createActionContext<State>(
+  contextName?: string
+): ActionContext<State> {
   function createReducerMap<M extends ReducerMap<State, any>>(map: M): M {
     return map;
   }
 
   function createActionCreator<P = any>(type: string): ActionCreator<P> {
+    const actionType =
+      contextName && contextName.trim().length > 0
+        ? `${contextName
+            .trim()
+            .toLocaleUpperCase()}/${type.trim().toLocaleUpperCase()}`
+        : `${type.trim().toLocaleUpperCase()}`;
+
     return (payload: P) => {
-      return { type: type, payload: payload };
+      return { type: actionType, payload: payload };
     };
   }
 
   // TODO: Change this so that the Reducer takes a payload type instead of an action.
   // This will let us annotate the payload like "payload: number" to get the payload we need in the reducer.
-  function createActionReducerMap<M extends ReducerMap<State, Action<any>>>(
+  function createActionReducerMap<M extends ReducerMap<State, any>>(
     reducerMap: M
   ): InferActionReducerMapFromReducerMap<M> {
     const actionReducerMap = Object.entries(reducerMap).reduce(
