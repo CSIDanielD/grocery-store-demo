@@ -9,7 +9,7 @@ import {
   InferActionReducerMapFromReducerMap
 } from "./typeInferences";
 
-export class BasicStore<S, R extends ReducerMap<S, Action<any>>> {
+export class BasicStore<S, R extends ReducerMap<S, any>> {
   protected _state: BehaviorSubject<S>;
   protected _actionReducers: BehaviorSubject<
     InferActionReducerMapFromReducerMap<R>
