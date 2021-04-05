@@ -1,5 +1,6 @@
-import { Action, InferActionCreatorFromAction } from "./action";
-import { Reducer, ReducerMap } from "./reducer";
+import { Action } from "./action";
+import { Reducer } from "./reducer";
+import { InferActionCreatorFromAction } from "./typeInferences";
 
 /** Describes an ActionCreator + Reducer combo */
 export interface ActionReducer<A extends Action, R extends Reducer<any, any>> {
@@ -13,19 +14,3 @@ export interface ActionReducerMap<
 > {
   [key: string]: ActionReducer<A, R>;
 }
-
-/** Infers an ActionReducer type from a Reducer */
-export type InferActionReducerFromReducer<R> = R extends Reducer<
-  infer S,
-  Action<infer P>
->
-  ? ActionReducer<Action<P>, Reducer<S, Action<P>>>
-  : never;
-
-/** Infers an ActionReducerMap type from a ReducerMap */
-export type InferActionReducerMapFromReducerMap<M> = M extends ReducerMap<
-  any,
-  any
->
-  ? { [K in keyof M]: InferActionReducerFromReducer<M[K]> }
-  : never;

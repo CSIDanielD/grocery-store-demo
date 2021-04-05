@@ -1,9 +1,9 @@
 import { Action, ActionCreator } from "./action";
+import { ReducerMap } from "./reducer";
 import {
   InferActionReducerFromReducer,
   InferActionReducerMapFromReducerMap
-} from "./actionReducer";
-import { ReducerMap } from "./reducer";
+} from "./typeInferences";
 
 export interface ActionContext<State> {
   readonly createReducerMap: <M extends ReducerMap<State, any>>(map: M) => M;
