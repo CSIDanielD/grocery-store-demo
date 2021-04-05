@@ -5,3 +5,8 @@ export interface GroceryState {
   foods: Food[];
   supplies: Supply[];
 }
+
+export const defaultState: GroceryState = {
+  foods: [],
+  supplies: []
+};
