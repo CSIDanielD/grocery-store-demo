@@ -13,8 +13,8 @@ export const defaultState: GroceryState = {
   supplies: []
 };
 
-const testActions = createActionContext<GroceryState>(
-  "testActions"
+const supplyActions = createActionContext<GroceryState>(
+  "supplyActions"
 ).createReducerMap({
   addSupply: (getState, payload: { supply: Supply }) => {
     const state = getState();
@@ -23,8 +23,25 @@ const testActions = createActionContext<GroceryState>(
   }
 });
 
-const testStore = new BasicStore(defaultState, testActions);
-const { addSupply } = testStore.actions;
+const foodActions = createActionContext<GroceryState>(
+  "foodActions"
+).createReducerMap({
+  addFood: (getState, payload: { food: Food }) => {
+    const state = getState();
+    state.foods.push(payload.food);
+    return state;
+  }
+});
+
+// Here's how to combine the actions objects into a single object that has all actions (an intersection type).
+// You MUST precede all actions with the spread operator (...) for their properties to properly map to the object 
+const allActions = {
+  ...supplyActions,
+  ...foodActions
+};
+
+const testStore = new BasicStore(defaultState, allActions);
+const { addSupply, addFood } = testStore.actions;
 const addPaperTowel = addSupply({
   supply: {
     id: 5,

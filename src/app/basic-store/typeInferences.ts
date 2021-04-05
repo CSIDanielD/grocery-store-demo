@@ -42,3 +42,13 @@ export type InferActionReducerMapFromReducerMap<M> = M extends ReducerMap<
 >
   ? { [K in keyof M]: InferActionReducerFromReducer<M[K]> }
   : never;
+
+const x = { color: "red" };
+const y = { value: 3 };
+
+const xy = { ...x, ...y }; // This does what I want.
+const alt: typeof x & typeof y = {
+  // Intersection also works.
+  color: "blue",
+  value: 11
+};

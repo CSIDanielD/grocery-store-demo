@@ -1,6 +1,7 @@
 import { ActionCreator } from "./action";
 import { ReducerMap } from "./reducer";
 import {
+  CombineReducer,
   InferActionReducerFromReducer,
   InferActionReducerMapFromReducerMap
 } from "./typeInferences";

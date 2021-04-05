@@ -48,7 +48,9 @@ export class BasicStore<S, R extends ReducerMap<S, any>> {
     this._dispatcher.next(action);
   }
 
-  protected _commitAction<A extends Action<any>>(action: A) {}
+  protected _commitAction<A extends Action<any>>(action: A) {
+    console.log("Action dispatched:", action);
+  }
 
   constructor(initialState: S, reducers: R) {
     this._state = new BehaviorSubject(initialState);
