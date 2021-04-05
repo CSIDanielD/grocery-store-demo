@@ -1,5 +1,3 @@
-import { Action } from "./action";
-
 export type Reducer<S, P> =
   | ((getState: () => S, payload: P) => S)
   | ((getState: () => S, payload: P) => Promise<S>);
