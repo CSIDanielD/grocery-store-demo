@@ -10,6 +10,7 @@ function findFoodById(foods: Food[], foodId: number) {
   return foodIndex;
 }
 
+/** These are all the actions defining how we can update the global Food state. */
 export const foodActions = withState<GroceryState>().createReducerMap({
   setFoods: (getState, foods: Food[]) => {
     const state = getState();
