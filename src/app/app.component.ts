@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { StoreService } from "./services/store.service";
 
 @Component({
   selector: "my-app",
@@ -6,5 +7,10 @@ import { Component } from "@angular/core";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private store: StoreService) {
+    const { setFoodTypes } = store.actions;
+    store.dispatch(
+      setFoodTypes([{ id: 1, color: "yellow", name: "banana", price: 4.99 }])
+    );
+  }
 }

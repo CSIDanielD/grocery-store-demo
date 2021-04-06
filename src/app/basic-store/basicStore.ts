@@ -94,10 +94,10 @@ export class BasicStore<S, R extends ReducerMap<S, any>> {
   // That might make it easy to have strongly-typed actions, but allow us to defer registering them until
   // Angular's lifecycle kicks in.
 
-  constructor(initialState: S, reducers: R, storeName: string = "store") {
+  constructor(initialState: S, reducers: R) {
     this._state = new BehaviorSubject(initialState);
     this._actionReducers = new BehaviorSubject(
-      createActionContext<S>(storeName).createActionReducerMap(reducers)
+      createActionContext<S>().createActionReducerMap(reducers)
     );
 
     // Automatically commit actions to mutate the state
