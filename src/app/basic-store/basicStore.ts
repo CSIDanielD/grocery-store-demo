@@ -1,10 +1,12 @@
 import { BehaviorSubject, Subject } from "rxjs";
 import { map } from "rxjs/operators";
 import { Action } from "./action";
-import { createActionContext, withState } from "./actionContext";
+import { createActionContext } from "./actionContext";
 import { ReducerMap } from "./reducer";
 import { Selector } from "./selector";
 import {
+  InferActionCreatorFromActionReducer,
+  InferActionCreatorFromReducer,
   InferActionCreatorMapFromActionReducerMap,
   InferActionReducerMapFromReducerMap
 } from "./typeInferences";
@@ -34,6 +36,14 @@ export class BasicStore<S, R extends ReducerMap<S, any>> {
     return actionCreators as InferActionCreatorMapFromActionReducerMap<
       InferActionReducerMapFromReducerMap<R>
     >;
+  }
+
+  /** Get the registered action by the given actionType. If you only need a single action, this is a more efficient way of retriving it.  */
+  getAction<T extends keyof R>(
+    actionType: keyof R
+  ): InferActionCreatorFromReducer<R[T]> {
+    const actionReducer = this._actionReducers.value[actionType as string];
+    return actionReducer.actionCreator as InferActionCreatorFromReducer<R[T]>;
   }
 
   /**

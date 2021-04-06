@@ -1,0 +1,43 @@
+import { withState } from "../basic-store/actionContext";
+import { GroceryState } from "../store/groceryState";
+import { Food } from "../types/food";
+
+function findFoodById(foods: Food[], foodId: number) {
+  const foodIndex = foods.findIndex(f => f.id === foodId);
+  if (foodIndex < 0) {
+    throw new Error(`Food with id '${foodId}' not found!`);
+  }
+  return foodIndex;
+}
+
+export const foodActions = withState<GroceryState>().createReducerMap({
+  setFoods: (getState, foods: Food[]) => {
+    const state = getState();
+    state.foods = foods;
+    return state;
+  },
+
+  addFood: (getState, food: Food) => {
+    const state = getState();
+    state.foods.push(food);
+    return state;
+  },
+
+  updateFood: (getState, food: Food) => {
+    const state = getState();
+    const foodIndex = findFoodById(state.foods, food.id);
+
+    // Update the food at the found index to the provided food obj.
+    state.foods.splice(foodIndex, 1, food);
+    return state;
+  },
+
+  removeFood: (getState, foodId: number) => {
+    const state = getState();
+    const foodIndex = findFoodById(state.foods, foodId);
+
+    // Delete the food at the found index.
+    state.foods.splice(foodIndex, 1);
+    return state;
+  }
+});

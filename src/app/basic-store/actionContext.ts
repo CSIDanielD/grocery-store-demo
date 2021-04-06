@@ -1,12 +1,12 @@
 import { ActionCreator } from "./action";
-import { ReducerMap } from "./reducer";
+import { Reducer, ReducerMap } from "./reducer";
 import {
-  CombineReducer,
   InferActionReducerFromReducer,
   InferActionReducerMapFromReducerMap
 } from "./typeInferences";
 
 export interface ActionContext<State> {
+  readonly createReducer: <R extends Reducer<State, any>>(reducer: R) => R;
   readonly createReducerMap: <M extends ReducerMap<State, any>>(map: M) => M;
   readonly createActionCreator: <P = any>(type: string) => ActionCreator<P>;
   readonly createActionReducerMap: <M extends ReducerMap<State, any>>(
@@ -15,10 +15,13 @@ export interface ActionContext<State> {
 }
 
 /**
- * Create a "Context" for ActionReducer creation methods. Alias for createActionContext.
+ * Create a "Context" for ActionReducer creation methods. The same as createActionContext,
+ * but doesn't allow providing a contextName parameter.
  * @see createActionContext
  */
-export const withState = createActionContext;
+export function withState<State>() {
+  return createActionContext<State>();
+}
 
 /**
  * Create a "Context" for ActionReducer creation methods.
@@ -29,6 +32,10 @@ export const withState = createActionContext;
 export function createActionContext<State>(
   contextName?: string
 ): ActionContext<State> {
+  function createReducer<R extends Reducer<State, any>>(reducer: R) {
+    return reducer;
+  }
+
   function createReducerMap<M extends ReducerMap<State, any>>(map: M): M {
     return map;
   }
@@ -36,10 +43,8 @@ export function createActionContext<State>(
   function createActionCreator<P = any>(type: string): ActionCreator<P> {
     const actionType =
       contextName && contextName.trim().length > 0
-        ? `${contextName
-            .trim()
-            .toLocaleUpperCase()}/${type.trim().toLocaleUpperCase()}`
-        : `${type.trim().toLocaleUpperCase()}`;
+        ? `${contextName.trim()}/${type.trim()}`
+        : `${type.trim()}`;
 
     return (payload: P) => {
       return { type: actionType, payload: payload };
@@ -69,6 +74,7 @@ export function createActionContext<State>(
   }
 
   return {
+    createReducer: createReducer,
     createReducerMap: createReducerMap,
     createActionCreator: createActionCreator,
     createActionReducerMap: createActionReducerMap

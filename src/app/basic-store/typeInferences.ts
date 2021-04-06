@@ -10,8 +10,13 @@ export type InferActionCreatorFromAction<A> = A extends Action<infer P>
 /** Infers an ActionCreator type from an Action */
 export type InferPayloadFromAction<A> = A extends Action<infer P> ? P : never;
 
+/** Infers an ActionCreator type from a Reducer */
+export type InferActionCreatorFromReducer<R> = R extends Reducer<any, infer P>
+  ? ActionCreator<P>
+  : never;
+
 /** Infers an ActionCreator type from an ActionReducer */
-export type InferActionCreatorForActionReducer<AR> = AR extends ActionReducer<
+export type InferActionCreatorFromActionReducer<AR> = AR extends ActionReducer<
   infer A,
   any
 >
@@ -24,7 +29,7 @@ export type InferActionCreatorForActionReducer<AR> = AR extends ActionReducer<
 export type InferActionCreatorMapFromActionReducerMap<
   M
 > = M extends ActionReducerMap<any, any>
-  ? { [K in keyof M]: InferActionCreatorForActionReducer<M[K]> }
+  ? { [K in keyof M]: InferActionCreatorFromActionReducer<M[K]> }
   : never;
 
 /** Infers an ActionReducer type from a Reducer */

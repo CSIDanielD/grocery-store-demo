@@ -6,10 +6,10 @@ export interface GroceryState {
   supplies: Supply[];
 }
 
-export const defaultState: GroceryState = {
-  foods: [],
-  supplies: []
-};
+// export const defaultState: GroceryState = {
+//   foods: [],
+//   supplies: []
+// };
 
 // const supplyActions = createActionContext<GroceryState>(
 //   "supplyActions"
