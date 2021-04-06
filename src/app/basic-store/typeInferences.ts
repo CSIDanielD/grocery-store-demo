@@ -47,3 +47,9 @@ export type InferActionReducerMapFromReducerMap<M> = M extends ReducerMap<
 >
   ? { [K in keyof M]: InferActionReducerFromReducer<M[K]> }
   : never;
+
+// From https://github.com/microsoft/TypeScript/issues/32689#issuecomment-517933876
+type Merge<A, B> = ({ [K in keyof A]: K extends keyof B ? B[K] : A[K] } &
+  B) extends infer O
+  ? { [K in keyof O]: O[K] }
+  : never;
