@@ -1,4 +1,5 @@
+import { ItemType } from "./item";
+
 export interface Inventory {
-  foodItems: { [foodTypeId: number]: number };
-  supplyItems: { [supplyTypeId: number]: number };
+  [id: number]: number;
 }

@@ -1,5 +1,5 @@
 export interface Supply {
-  id: number;
-  name: string;
-  price: number;
+  itemId: number;
+  supplyName: string;
+  supplyPrice: number;
 }

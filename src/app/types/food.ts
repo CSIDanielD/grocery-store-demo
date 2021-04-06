@@ -1,6 +1,5 @@
 export interface Food {
-  id: number;
-  name: string;
-  color: string;
-  price: number;
+  itemId: number;
+  foodName: string;
+  foodPrice: number;
 }
