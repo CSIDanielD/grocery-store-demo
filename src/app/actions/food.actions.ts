@@ -14,31 +14,31 @@ function findFoodById(foods: Food[], foodId: number) {
 export const foodActions = withState<GroceryState>().createReducerMap({
   setFoods: (getState, foods: Food[]) => {
     const state = getState();
-    state.foods = foods;
+    state.inventory.foods = foods;
     return state;
   },
 
   addFood: (getState, food: Food) => {
     const state = getState();
-    state.foods.push(food);
+    state.inventory.foods.push(food);
     return state;
   },
 
   updateFood: (getState, food: Food) => {
     const state = getState();
-    const foodIndex = findFoodById(state.foods, food.id);
+    const foodIndex = findFoodById(state.inventory.foods, food.id);
 
     // Update the food at the found index to the provided food obj.
-    state.foods.splice(foodIndex, 1, food);
+    state.inventory.foods.splice(foodIndex, 1, food);
     return state;
   },
 
   removeFood: (getState, foodId: number) => {
     const state = getState();
-    const foodIndex = findFoodById(state.foods, foodId);
+    const foodIndex = findFoodById(state.inventory.foods, foodId);
 
     // Delete the food at the found index.
-    state.foods.splice(foodIndex, 1);
+    state.inventory.foods.splice(foodIndex, 1);
     return state;
   }
 });

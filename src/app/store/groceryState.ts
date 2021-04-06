@@ -1,9 +1,7 @@
-import { Food } from "../types/food";
-import { Supply } from "../types/supply";
+import { Inventory } from "../types/inventory";
 
 export interface GroceryState {
-  foods: Food[];
-  supplies: Supply[];
+  inventory: Inventory;
 }
 
 // export const defaultState: GroceryState = {

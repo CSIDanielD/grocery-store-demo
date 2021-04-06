@@ -1,19 +1,24 @@
 import { Injectable } from "@angular/core";
 import { foodActions } from "../actions/food.actions";
-import { withState } from "../basic-store/actionContext";
+import { inventoryActions } from "../actions/inventory.actions";
+import { shipmentActions } from "../actions/shipment.actions";
+import { supplyActions } from "../actions/supplies.actions";
 import { BasicStore } from "../basic-store/basicStore";
 import { GroceryState } from "../store/groceryState";
 
 const defaultState: GroceryState = {
-  foods: [],
-  supplies: []
+  inventory: {
+    foods: [],
+    supplies: []
+  }
 };
 
-// const actions = withState<GroceryState>().createReducerMap({
-//   testAction: (getState, id: number) => getState()
-// });
-
-const actions = { ...foodActions };
+const actions = {
+  ...foodActions,
+  ...supplyActions,
+  ...shipmentActions,
+  ...inventoryActions
+};
 
 @Injectable({ providedIn: "root" })
 export class StoreService extends BasicStore<
@@ -24,3 +29,6 @@ export class StoreService extends BasicStore<
     super(defaultState, actions);
   }
 }
+
+const x = new StoreService();
+const { updateFood, importShipment } = x.actions;
