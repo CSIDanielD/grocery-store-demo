@@ -2,8 +2,8 @@ import { withState } from "../basic-store/actionContext";
 import { GroceryState } from "../store/groceryState";
 import { Supply } from "../types/supply";
 
-function findSupplyById(supplies: Supply[], supplyId: number) {
-  const supplyIndex = supplies.findIndex(s => s.id === supplyId);
+function findSupplyTypeById(supplyTypes: Supply[], supplyId: number) {
+  const supplyIndex = supplyTypes.findIndex(s => s.id === supplyId);
   if (supplyIndex < 0) {
     throw new Error(`Supply with id '${supplyId}' not found!`);
   }
@@ -13,31 +13,31 @@ function findSupplyById(supplies: Supply[], supplyId: number) {
 
 /** These are all the actions defining how we can update the global Supply state. */
 export const supplyActions = withState<GroceryState>().createReducerMap({
-  setSupplies: (getState, supplies: Supply[]) => {
+  setSupplyTypes: (getState, supplyTypes: Supply[]) => {
     const state = getState();
-    state.inventory.supplies = supplies;
+    state.supplyTypes = supplyTypes;
     return state;
   },
 
-  addSupply: (getState, supply: Supply) => {
+  addSupplyType: (getState, supplyType: Supply) => {
     const state = getState();
-    state.inventory.supplies.push(supply);
+    state.supplyTypes.push(supplyType);
     return state;
   },
 
-  updateSupply: (getState, supply: Supply) => {
+  updateSupplyType: (getState, supplyType: Supply) => {
     const state = getState();
-    const index = findSupplyById(state.inventory.supplies, supply.id);
+    const index = findSupplyTypeById(state.supplyTypes, supplyType.id);
 
-    state.inventory.supplies.splice(index, 1, supply);
+    state.supplyTypes.splice(index, 1, supplyType);
     return state;
   },
 
-  removeSupply: (getState, supplyId: number) => {
+  removeSupplyType: (getState, supplyTypeId: number) => {
     const state = getState();
-    const index = findSupplyById(state.inventory.supplies, supplyId);
+    const index = findSupplyTypeById(state.supplyTypes, supplyTypeId);
 
-    state.inventory.supplies.splice(index, 1);
+    state.supplyTypes.splice(index, 1);
     return state;
   }
 });

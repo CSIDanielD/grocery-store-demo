@@ -1,7 +1,4 @@
-import { Food } from "./food";
-import { Supply } from "./supply";
-
 export interface Inventory {
-  foods: Food[];
-  supplies: Supply[];
+  foodItems: { [foodTypeId: number]: number };
+  supplyItems: { [supplyTypeId: number]: number };
 }

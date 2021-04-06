@@ -2,8 +2,8 @@ import { withState } from "../basic-store/actionContext";
 import { GroceryState } from "../store/groceryState";
 import { Food } from "../types/food";
 
-function findFoodById(foods: Food[], foodId: number) {
-  const foodIndex = foods.findIndex(f => f.id === foodId);
+function findFoodById(foodTypes: Food[], foodId: number) {
+  const foodIndex = foodTypes.findIndex(f => f.id === foodId);
   if (foodIndex < 0) {
     throw new Error(`Food with id '${foodId}' not found!`);
   }
@@ -12,33 +12,33 @@ function findFoodById(foods: Food[], foodId: number) {
 
 /** These are all the actions defining how we can update the global Food state. */
 export const foodActions = withState<GroceryState>().createReducerMap({
-  setFoods: (getState, foods: Food[]) => {
+  setFoodTypes: (getState, foodTypes: Food[]) => {
     const state = getState();
-    state.inventory.foods = foods;
+    state.foodTypes = foodTypes;
     return state;
   },
 
-  addFood: (getState, food: Food) => {
+  addFoodType: (getState, foodType: Food) => {
     const state = getState();
-    state.inventory.foods.push(food);
+    state.foodTypes.push(foodType);
     return state;
   },
 
-  updateFood: (getState, food: Food) => {
+  updateFoodType: (getState, foodType: Food) => {
     const state = getState();
-    const foodIndex = findFoodById(state.inventory.foods, food.id);
+    const foodIndex = findFoodById(state.foodTypes, foodType.id);
 
     // Update the food at the found index to the provided food obj.
-    state.inventory.foods.splice(foodIndex, 1, food);
+    state.foodTypes.splice(foodIndex, 1, foodType);
     return state;
   },
 
-  removeFood: (getState, foodId: number) => {
+  removeFoodType: (getState, foodTypeId: number) => {
     const state = getState();
-    const foodIndex = findFoodById(state.inventory.foods, foodId);
+    const foodIndex = findFoodById(state.foodTypes, foodTypeId);
 
     // Delete the food at the found index.
-    state.inventory.foods.splice(foodIndex, 1);
+    state.foodTypes.splice(foodIndex, 1);
     return state;
   }
 });
